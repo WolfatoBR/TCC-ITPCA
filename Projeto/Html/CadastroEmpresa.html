@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Empresa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/Projeto/Css/CadastroEmpresa.css">
+</head>
+<body>
+    <div class="header text-center">
+        <div class="container">
+            <h1><i class="bi bi-building"></i> Cadastro de Empresa</h1>
+            <p class="lead">Preencha as informações abaixo para cadastrar ou editar uma empresa</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="step-progress">
+            <div class="step active" id="step1">
+                <div class="step-icon">1</div>
+                <div class="step-text">Documentos</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-icon">2</div>
+                <div class="step-text">Dados Gerais</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-icon">3</div>
+                <div class="step-text">Sócios</div>
+            </div>
+        </div>
+
+        <form id="empresaForm">
+            <!-- Seção 1: Upload de Documentos -->
+            <div class="card form-section active" id="section1">
+                <div class="card-header">
+                    <i class="bi bi-cloud-upload"></i> Upload de Documentos
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">Faça upload dos documentos da empresa para processamento automático com IA/OCR</p>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="fileInput" style="display: none;" accept=".pdf,.jpg,.jpeg,.png">
+                        <div class="upload-icon">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                        </div>
+                        <h5>Arraste arquivos aqui ou clique para selecionar</h5>
+                        <p class="text-muted">Formatos suportados: PDF, JPG, PNG (Máx. 10MB)</p>
+                    </div>
+                    
+                    <div class="ocr-processing" id="ocrProcessing">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Processando...</span>
+                        </div>
+                        <h5>Processando documento com IA/OCR</h5>
+                        <p>Extraindo informações do documento...</p>
+                    </div>
+                    
+                    <div class="document-preview" id="documentPreview">
+                        <h5><i class="bi bi-file-text"></i> Documento Carregado</h5>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span id="fileName">contrato_social.pdf</span>
+                            <div>
+                                <button type="button" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i> Visualizar
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Remover
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer actions">
+                    <button type="button" class="btn btn-primary" id="nextToSection2">
+                        Próximo <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Seção 2: Dados Gerais -->
+            <div class="card form-section" id="section2">
+                <div class="card-header">
+                    <i class="bi bi-building"></i> Dados Gerais da Empresa
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="cnpj" class="form-label">CNPJ</label>
+                            <input type="text" class="form-control" id="cnpj" placeholder="00.000.000/0000-00" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inscricaoEstadual" class="form-label">Inscrição Estadual</label>
+                            <input type="text" class="form-control" id="inscricaoEstadual">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="razaoSocial" class="form-label">Razão Social</label>
+                        <input type="text" class="form-control" id="razaoSocial" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="nomeFantasia" class="form-label">Nome Fantasia</label>
+                        <input type="text" class="form-control" id="nomeFantasia">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="email">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="telefone" class="form-label">Telefone</label>
+                        <input type="tel" class="form-control" id="telefone" placeholder="(00) 00000-0000">
+                    </div>
+                    
+                    <h5 class="mt-4 mb-3">Endereço</h5>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <label for="cep" class="form-label">CEP</label>
+                            <input type="text" class="form-control" id="cep" placeholder="00000-000">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="logradouro" class="form-label">Logradouro</label>
+                            <input type="text" class="form-control" id="logradouro">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="numero" class="form-label">Número</label>
+                            <input type="text" class="form-control" id="numero">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="complemento" class="form-label">Complemento</label>
+                            <input type="text" class="form-control" id="complemento">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-5">
+                            <label for="bairro" class="form-label">Bairro</label>
+                            <input type="text" class="form-control" id="bairro">
+                        </div>
+                        <div class="col-md-5">
+                            <label for="cidade" class="form-label">Cidade</label>
+                            <input type="text" class="form-control" id="cidade">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="uf" class="form-label">UF</label>
+                            <select class="form-select" id="uf">
+                                <option value="">Selecione</option>
+                                <option value="AC">AC</option>
+                                <option value="AL">AL</option>
+                                <option value="AM">AM</option>
+                                <option value="AP">AP</option>
+                                <option value="BA">BA</option>
+                                <option value="CE">CE</option>
+                                <option value="DF">DF</option>
+                                <option value="ES">ES</option>
+                                <option value="GO">GO</option>
+                                <option value="MA">MA</option>
+                                <option value="MG">MG</option>
+                                <option value="MS">MS</option>
+                                <option value="MT">MT</option>
+                                <option value="PA">PA</option>
+                                <option value="PB">PB</option>
+                                <option value="PE">PE</option>
+                                <option value="PI">PI</option>
+                                <option value="PR">PR</option>
+                                <option value="RJ">RJ</option>
+                                <option value="RN">RN</option>
+                                <option value="RO">RO</option>
+                                <option value="RR">RR</option>
+                                <option value="RS">RS</option>
+                                <option value="SC">SC</option>
+                                <option value="SE">SE</option>
+                                <option value="SP">SP</option>
+                                <option value="TO">TO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer actions">
+                    <button type="button" class="btn btn-outline-secondary" id="backToSection1">
+                        <i class="bi bi-arrow-left"></i> Voltar
+                    </button>
+                    <button type="button" class="btn btn-primary" id="nextToSection3">
+                        Próximo <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Seção 3: Sócios -->
+            <div class="card form-section" id="section3">
+                <div class="card-header">
+                    <i class="bi bi-people"></i> Sócios da Empresa
+                </div>
+                <div class="card-body">
+                    <div id="sociosContainer">
+                        <div class="socio-item">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-label">Nome completo</label>
+                                    <input type="text" class="form-control" placeholder="Nome do sócio">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">CPF</label>
+                                    <input type="text" class="form-control" placeholder="000.000.000-00">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Participação (%)</label>
+                                    <input type="number" class="form-control" placeholder="0" min="0" max="100" step="0.01">
+                                </div>
+                                <div class="col-md-2 d-flex align-items-end">
+                                    <button type="button" class="btn btn-outline-danger w-100">
+                                        <i class="bi bi-trash"></i> Remover
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn btn-outline-primary mt-3" id="addSocio">
+                        <i class="bi bi-plus-circle"></i> Adicionar Sócio
+                    </button>
+                </div>
+                <div class="card-footer actions">
+                    <button type="button" class="btn btn-outline-secondary" id="backToSection2">
+                        <i class="bi bi-arrow-left"></i> Voltar
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-circle"></i> Finalizar Cadastro
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/Projeto/Script/CadastroEmpresa.js"></script>
+</body>
+</html>
