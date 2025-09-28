@@ -1,18 +1,23 @@
-const Empresa = require('../model/cadastro')
+const Usuario = require('../model/cadastro')
+const bcrypt = require('bcrypt')
 
-module.exports.adicionar = async (req, res) => {
-    const {empresa, socio, cpf, cnh, rg, estadoCivil, profissao, endereco, filiacao} = req.body
-
-    if(!empresa || !socio || !cpf || !cnh || !rg || !estadoCivil || !profissao || !endereco || !filiacao) {
-        return res.status(401).json({message: 'Todas os campos devem ser preenchidos'})
+exports.cadastro = async (req, res) => {
+    const {email, userName, senha} = (req.body)
+    if(!email || !userName || !senha) {
+        return res.status(400).json({message: "Todos os campos devem ser preenchidos !"})
     }
-    
     try {
-        const novoUsuario = new Empresa({empresa, socio, cpf, cnh, rg, estadoCivil, profissao, endereco, filiacao})
-        novoUsuario.save()
-        res.status(200).json({ message: 'Usuario cadastrado com sucesso !!'})
+        const verificarExistente = await Usuario.findOne({ where: {email} }).catch(()=> null)
+        if(verificarExistente) return res.status(409).json({message: 'Este email já existe !'});
+
+        const saltRounds = 10;
+        const hash = await bcrypt.hash(senha, saltRounds)
+
+        const novoUsuario = await Usuario.create({email, userName, senha: hash})
+
+        res.status(201).json({id: novoUsuario.id})
     } catch (error) {
-        console.error(error.message)
-        res.status(500).json({ error: 'Erro ao cadastrar usuario.'})
+        console.error(error)
+        res.status(500).json({message: 'Erro interno do servidor'})
     }
 }

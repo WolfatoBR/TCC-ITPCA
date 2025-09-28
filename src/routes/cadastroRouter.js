@@ -1,8 +1,13 @@
+const cadastroController = require('../app/controllers/cadastroController.js')
+const verificarToken = require('../app/middleware/auth')
 const express = require('express')
-const {adicionar} = require('../app/controllers/cadastroController')
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/cadastrar-usuario', adicionar)
+router.post('/', cadastroController.cadastro)
 
-module.exports = router
+router.post('/rotaAutenticada', verificarToken, (req, res) => {
+    res.json({ message: 'Acesso permitido', usuario: req.usuario })
+});
+
+module.exports = router;
